@@ -117,6 +117,11 @@ func (h *handler) sessionByRequest(req *http.Request) (*session, error) {
 	}
 	sess, exists := h.sessions[sessionID]
 	if !exists {
+		if h.options.SessionCountLimit > 0 {
+			if len(h.sessions) >= h.options.SessionCountLimit {
+				return nil, errors.New("Session count limit is exceeded");
+			}
+		}
 		sess = newSession(req, sessionID, h.options.DisconnectDelay, h.options.HeartbeatDelay)
 		h.sessions[sessionID] = sess
 		if h.handlerFunc != nil {

@@ -48,6 +48,8 @@ type Options struct {
 	// This setting controls if the server should set this cookie to a dummy value.
 	// By default setting JSessionID cookie is disabled. More sophisticated behaviour can be achieved by supplying a function.
 	JSessionID func(http.ResponseWriter, *http.Request)
+	//You can limit sessions number. 0 - infinitive sessions number.
+	SessionCountLimit int
 }
 
 // DefaultOptions is a convenient set of options to be used for sockjs
@@ -58,6 +60,7 @@ var DefaultOptions = Options{
 	HeartbeatDelay:  25 * time.Second,
 	DisconnectDelay: 5 * time.Second,
 	ResponseLimit:   128 * 1024,
+	SessionCountLimit: 0,
 }
 
 type info struct {
